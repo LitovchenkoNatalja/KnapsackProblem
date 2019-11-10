@@ -1,0 +1,9 @@
+D:\5\KnapsackProblem\bin\Debug\KnapsackProblem.exe.config
+D:\5\KnapsackProblem\bin\Debug\KnapsackProblem.exe
+D:\5\KnapsackProblem\bin\Debug\KnapsackProblem.pdb
+D:\5\KnapsackProblem\obj\Debug\KnapsackProblem.csprojAssemblyReference.cache
+D:\5\KnapsackProblem\obj\Debug\KnapsackProblem.Form1.resources
+D:\5\KnapsackProblem\obj\Debug\KnapsackProblem.Properties.Resources.resources
+D:\5\KnapsackProblem\obj\Debug\KnapsackProblem.csproj.GenerateResource.cache
+D:\5\KnapsackProblem\obj\Debug\KnapsackProblem.exe
+D:\5\KnapsackProblem\obj\Debug\KnapsackProblem.pdb

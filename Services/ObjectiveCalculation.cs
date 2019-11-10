@@ -17,7 +17,7 @@ namespace KnapsackProblem.Services
             {
                 totalModel.TotalCost += model.Items[i].Item1 * Convert.ToInt32(X[i]);
                 totalModel.TotalWeight += model.Items[i].Item2 * Convert.ToInt32(X[i]);
-                if (totalModel.TotalWeight > model.C)
+                if (totalModel.IsModelAppropriate && totalModel.TotalWeight > model.C)
                 {
                     totalModel.IsModelAppropriate = false;
                 }
@@ -25,7 +25,7 @@ namespace KnapsackProblem.Services
             return totalModel;
         }
 
-        public TotalModel CalculateObjectiveValue(int[] NFlip, BitArray X, TotalModel prevTotalModel, KnapsackModel model)
+        public TotalModel NextObjectiveValue(int[] NFlip, BitArray X, TotalModel prevTotalModel, KnapsackModel model)
         {
             var totalModel = new TotalModel();
             totalModel.TotalCost = prevTotalModel.TotalCost;
@@ -34,19 +34,23 @@ namespace KnapsackProblem.Services
             //for each changed bit in start array
             foreach (var bitNumber in NFlip) if (bitNumber != 0)//stop because there is no bitNumber elements left
                 {
-                //if add element
-                if (X[bitNumber - 1] == false)
-                {
-                    totalModel.TotalCost += model.Items[bitNumber - 1].Item1;
-                    totalModel.TotalWeight += model.Items[bitNumber - 1].Item2;
+                    //if add element
+                    if (X[bitNumber - 1] == false)
+                    {
+                        totalModel.TotalCost += model.Items[bitNumber - 1].Item1;
+                        totalModel.TotalWeight += model.Items[bitNumber - 1].Item2;
+                    }
+                    //if delete element
+                    else
+                    {
+                        totalModel.TotalCost -= model.Items[bitNumber - 1].Item1;
+                        totalModel.TotalWeight -= model.Items[bitNumber - 1].Item2;
+                    }
+                    if (totalModel.IsModelAppropriate && totalModel.TotalWeight > model.C)
+                    {
+                        totalModel.IsModelAppropriate = false;
+                    }
                 }
-                //if delete element
-                else
-                {
-                    totalModel.TotalCost -= model.Items[bitNumber - 1].Item1;
-                    totalModel.TotalWeight -= model.Items[bitNumber - 1].Item2;
-                }
-            }
             return totalModel;
         }
 

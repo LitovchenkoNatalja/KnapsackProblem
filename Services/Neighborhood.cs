@@ -15,29 +15,21 @@ namespace KnapsackProblem.Services
         public bool stop = false;
         
         //Ex: 54321
-        public void InitNFlip(int N)
+        public void InitNFlip(int N, int length)
         {
             NFlip = new int[N];
             for (int i = 0; i < NFlip.Length; i++)
             {
-                NFlip[i] = N--;
+                NFlip[i] = length--;
             }
         }
 
-        public BitArray GetNextNeighborhood(BitArray X)
+        public void MoveNext()
         {
-            //invert start binary array
-            foreach(var bitNumber in NFlip) if (bitNumber != 0)//stop because there is no bitNumber elements left
-                { 
-                if (bitNumber != 0)
-                {
-                    X[bitNumber - 1] = !X[bitNumber - 1];
-                }
-            }
 
             //search the last 0 element
             int nullElement;
-            for(nullElement = 0; nullElement < NFlip.Length; nullElement++)
+            for (nullElement = 0; nullElement < NFlip.Length; nullElement++)
             {
                 if (NFlip[nullElement] == 0) break;
             }
@@ -60,7 +52,17 @@ namespace KnapsackProblem.Services
                     NFlip[index++] = --count;
                 }
             }
-            return X;
+        }
+
+        public BitArray GetNextNeighborhood(BitArray X)
+        {
+            //invert start binary array
+            BitArray Y = (BitArray)X.Clone();
+            foreach(var bitNumber in NFlip) if (bitNumber != 0)//stop because there is no bitNumber elements left
+            {
+                Y[bitNumber - 1] = !Y[bitNumber - 1];
+            }
+            return Y;
         }
     }
 }

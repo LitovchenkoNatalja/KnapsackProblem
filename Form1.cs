@@ -43,16 +43,16 @@ namespace KnapsackProblem
 
         private void hillClimbingButton_Click(object sender, EventArgs e)
         {
-            //new HillClimbing().HillClimbingMethod(knapsackModel);
+            new HillClimbing().HillClimbingMethod(knapsackModel);
 
-            var Neighborhood = new Neighborhood();
-            Neighborhood.InitNFlip(5);
-            BitArray X = new RandomBitGeneration().GenerateBitArray(knapsackModel.N);
-            while (Neighborhood.stop)
-            {
-                Neighborhood.GetNextNeighborhood(X);
+            //var Neighborhood = new Neighborhood();
+            //Neighborhood.InitNFlip(3);
+            //BitArray X = new RandomBitGeneration().GenerateBitArray(knapsackModel.N);
+            //while (!Neighborhood.stop)
+            //{
+            //    Neighborhood.GetNextNeighborhood(X);
 
-            }
+            //}
         }
     }
 }

@@ -11,5 +11,7 @@ namespace KnapsackProblem.Models
     {
         public BitArray X { get; set; }
         public int ResultC { get; set; }
+        public int ResultW { get; set; }
+        public List<int> ObjectiveDetails { get; set; }
     }
 }

@@ -9,15 +9,17 @@ namespace KnapsackProblem.Services
 {
     public class RandomBitGeneration
     {
-        public BitArray GenerateBitArray(int size)
+        private const double PROBABILITY = 0.5;
+
+        public BitArray GenerateBitArray(int size, Random randomHelp = null)
         {
             bool[] XArray = new bool[size];
 
-            Random random = new Random();
+            Random random = randomHelp!=null ? randomHelp : new Random();
             for (int i=0; i< size; i++)
             {
-                bool randomValue = Convert.ToBoolean(random.Next(2));
-                XArray[i] = randomValue;
+                double randomValue = random.NextDouble();
+                XArray[i] = randomValue > PROBABILITY ? true : false;
             }
             return new BitArray(XArray);
         }

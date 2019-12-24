@@ -15,13 +15,25 @@ namespace KnapsackProblem.Services
             var totalModel = new TotalModel();
             for (int i=0; i<model.N; i++)
             {
-                totalModel.TotalCost += model.Items[i].Item1 * Convert.ToInt32(X[i]);
-                totalModel.TotalWeight += model.Items[i].Item2 * Convert.ToInt32(X[i]);
+                totalModel.TotalCost += model.Items[i].Item1 * Convert.ToDouble(X[i]);
+                totalModel.TotalWeight += model.Items[i].Item2 * Convert.ToDouble(X[i]);
                 if (totalModel.IsModelAppropriate && totalModel.TotalWeight > model.C)
                 {
                     totalModel.IsModelAppropriate = false;
                 }
             }
+            return totalModel;
+        }
+
+        public TotalModel CalculateNewObjective(BitArray X, KnapsackModel model, double alpha)
+        {
+            var totalModel = new TotalModel();
+            for (int i = 0; i < model.N; i++)
+            {
+                totalModel.TotalCost += model.Items[i].Item1 * Convert.ToDouble(X[i]);
+                totalModel.TotalWeight += model.Items[i].Item2 * Convert.ToDouble(X[i]); 
+            }
+            totalModel.TotalCost = totalModel.TotalCost - alpha * Math.Max(totalModel.TotalWeight - model.C, 0);
             return totalModel;
         }
 
@@ -46,11 +58,11 @@ namespace KnapsackProblem.Services
                         totalModel.TotalCost -= model.Items[bitNumber - 1].Item1;
                         totalModel.TotalWeight -= model.Items[bitNumber - 1].Item2;
                     }
-                    if (totalModel.IsModelAppropriate && totalModel.TotalWeight > model.C)
-                    {
-                        totalModel.IsModelAppropriate = false;
-                    }
                 }
+            if (totalModel.TotalWeight > model.C)
+            {
+                totalModel.IsModelAppropriate = false;
+            }
             return totalModel;
         }
 

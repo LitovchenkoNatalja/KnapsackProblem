@@ -22,6 +22,19 @@ namespace KnapsackProblem.Services
             {
                 NFlip[i] = length--;
             }
+            stop = false;
+        }
+
+        public void RandomNFlip(int N, int length)
+        {
+            Random r = new Random();
+            NFlip = new int[N];
+            NFlip[0] = r.Next(0, length);
+            for (int i = 1; i < NFlip.Length; i++)
+            {
+                NFlip[i] = r.Next(0, NFlip[i-1]);
+            }
+            stop = false;
         }
 
         public void MoveNext()

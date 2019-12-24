@@ -4,8 +4,8 @@ namespace KnapsackProblem.Models
 {
     public class MaxAttemptsResultModel
     {
-        public SortedDictionary<int, int> AttemptStatistics { set; get; }
-        public int Delta { set; get; }
-        public List<List<int>> ObjectivesDetails { get; set; }
+        public SortedDictionary<double, double> AttemptStatistics { set; get; }
+        public double Delta { set; get; }
+        public List<List<double>> ObjectivesDetails { get; set; }
     }
 }

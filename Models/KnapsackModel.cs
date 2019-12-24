@@ -9,7 +9,7 @@ namespace KnapsackProblem.Models
     public class KnapsackModel
     {
         public int N { get; set; }
-        public int C { get; set; }
-        public List<Tuple<int, int>> Items { get; set; }
+        public double C { get; set; }
+        public List<Tuple<double, double>> Items { get; set; }
     }
 }

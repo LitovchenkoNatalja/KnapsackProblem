@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Methods\GeneticAlgorithm.cs" />
     <Compile Include="Methods\HillClimbing.cs" />
+    <Compile Include="Methods\VariableDepthSearch.cs" />
     <Compile Include="Models\KnapsackModel.cs" />
     <Compile Include="Models\MaxAttemptsResultModel.cs" />
     <Compile Include="Models\ResultModel.cs" />

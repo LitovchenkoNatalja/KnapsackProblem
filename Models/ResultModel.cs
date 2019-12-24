@@ -10,8 +10,8 @@ namespace KnapsackProblem.Models
     public class ResultModel
     {
         public BitArray X { get; set; }
-        public int ResultC { get; set; }
-        public int ResultW { get; set; }
-        public List<int> ObjectiveDetails { get; set; }
+        public double ResultC { get; set; }
+        public double ResultW { get; set; }
+        public List<double> ObjectiveDetails { get; set; }
     }
 }

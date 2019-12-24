@@ -8,8 +8,8 @@ namespace KnapsackProblem.Models
 {
     public class TotalModel
     {
-        public int TotalWeight { get; set; }
-        public int TotalCost { get; set; }
+        public double TotalWeight { get; set; }
+        public double TotalCost { get; set; }
         public bool IsModelAppropriate { get; set; } = true;
     }
 }

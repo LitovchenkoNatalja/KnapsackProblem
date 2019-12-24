@@ -72,7 +72,9 @@ namespace KnapsackProblem
             var maxAttemt = Convert.ToInt32(textBoxMaxAttemps.Text);
             var objDetails = checkBoxObjDetails.Checked;
 
-            var resultModel = new HillClimbing().MultiStartHillClimbingMethod(knapsackModel, maxAttemt, objDetails);
+
+            double alpha = Convert.ToDouble(textBox11.Text);
+            var resultModel = new HillClimbing().MultiStartHillClimbingMethod(knapsackModel, maxAttemt, objDetails, alpha);
             Series ser1 = new Series("Attempts statistics");
             chart1.Series.Clear();
             foreach (var pair in resultModel.AttemptStatistics)
@@ -106,9 +108,11 @@ namespace KnapsackProblem
 
         private void HillClimbingButton_Click(object sender, EventArgs e)
         {
+            double alpha = Convert.ToDouble(textBox11.Text);
+
             File.Delete(@"C:\Users\User\Downloads\ResultHillClimbing.txt");
 
-            var resultModel = new HillClimbing().HillClimbingMethod(knapsackModel);
+            var resultModel = new HillClimbing().HillClimbingMethod(knapsackModel, alpha);
             textBoxResultC2.Text = Convert.ToString(resultModel.ResultC);
             textBoxResultW2.Text = Convert.ToString(resultModel.ResultW);
             listBoxSelectedItems2.Items.Clear();
@@ -125,13 +129,15 @@ namespace KnapsackProblem
 
         private void SameInitValuebutton_Click(object sender, EventArgs e)
         {
+            double alpha = Convert.ToDouble(textBox11.Text);
+
             File.Delete(@"C:\Users\User\Downloads\ResultFAHillClimbing.txt");
 
             var hill = new HillClimbing(knapsackModel);
 
             File.Delete(@"C:\Users\User\Downloads\ResultHillClimbing.txt");
 
-            var resultModel = hill.HillClimbingMethod(knapsackModel);
+            var resultModel = hill.HillClimbingMethod(knapsackModel, alpha);
             textBoxResultC2.Text = Convert.ToString(resultModel.ResultC);
             textBoxResultW2.Text = Convert.ToString(resultModel.ResultW);
             listBoxSelectedItems2.Items.Clear();
@@ -145,7 +151,7 @@ namespace KnapsackProblem
                 }
             }
 
-            resultModel = hill.FirstAscendHillClimbingMethod(knapsackModel);
+            resultModel = hill.NewFirstAscendHillClimbingMethod(knapsackModel, alpha);
             textBoxResultC.Text = Convert.ToString(resultModel.ResultC);
             textBoxResultW.Text = Convert.ToString(resultModel.ResultW);
             listBoxSelectedItems.Items.Clear();
@@ -221,9 +227,10 @@ namespace KnapsackProblem
         {
             File.Delete(@"C:\Users\User\Downloads\ResultVariableDepth.txt");
 
+            var alpha = Convert.ToDouble(textBox12.Text);
             var Region = Convert.ToInt32(textBox10.Text);
 
-            var result = new VariableDepthSearch().VariableDepthSearchMethod(knapsackModel, Region);
+            var result = new VariableDepthSearch().VariableDepthSearchMethod(knapsackModel, Region, alpha);
 
             textBox9.Text = Convert.ToString(result.ResultC);
             textBox8.Text = Convert.ToString(result.ResultW);
@@ -246,11 +253,13 @@ namespace KnapsackProblem
             Series ser3 = new Series("Attempts statistics");
             chart4.Series.Clear();
 
+            var alpha = Convert.ToDouble(textBox12.Text);
+
             SortedDictionary<double, double> dict = new SortedDictionary<double, double>();
 
             for (int i = 0; i < att; i++)
             {
-                var result = new VariableDepthSearch().VariableDepthSearchMethod(knapsackModel, Region);
+                var result = new VariableDepthSearch().VariableDepthSearchMethod(knapsackModel, Region, alpha);
                 if (!dict.ContainsKey(result.ResultC))
                 {
                     dict.Add(result.ResultC, 1);

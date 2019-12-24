@@ -122,7 +122,7 @@ namespace KnapsackProblem.Methods
             return resultModel;
         }
 
-        public MaxAttemptsResultModel MultiStartHillClimbingMethod(KnapsackModel model, int maxAttemts, bool objDetails)
+        public MaxAttemptsResultModel MultiStartHillClimbingMethod(KnapsackModel model, int maxAttemts, bool objDetails, double alpha)
         {
             var maxAttemptsResultModel = new MaxAttemptsResultModel();
             maxAttemptsResultModel.AttemptStatistics = new SortedDictionary<double, double>();
@@ -130,7 +130,7 @@ namespace KnapsackProblem.Methods
 
             for (int attempt = 0; attempt< maxAttemts; attempt++)
             {
-                var result = HillClimbingMethod(model, objDetails);
+                var result = HillClimbingMethod(model, alpha, objDetails);
                 if (maxAttemptsResultModel.AttemptStatistics.ContainsKey(result.ResultC)) 
                 {
                     maxAttemptsResultModel.AttemptStatistics[result.ResultC] += 1;
@@ -147,7 +147,7 @@ namespace KnapsackProblem.Methods
             return maxAttemptsResultModel;
         }
 
-        public ResultModel HillClimbingMethod(KnapsackModel model, bool needObjectiveDetails = false)
+        public ResultModel HillClimbingMethod(KnapsackModel model, double alpha, bool needObjectiveDetails = false)
         {
             //selec inital X at random
             BitArray X = XInit != null ? XInit : new RandomBitGeneration().GenerateBitArray(model.N);
@@ -156,7 +156,7 @@ namespace KnapsackProblem.Methods
             var neighborhood = new Neighborhood();
             neighborhood.InitNFlip(1, model.N);
             var objectiveCalculation = new ObjectiveCalculation();
-            var xTotalModel = objectiveCalculation.CalculateObjectiveValue(X, model);
+            var xTotalModel = objectiveCalculation.CalculateNewObjective(X, model, alpha);
             new FileProcess().WriteFile(X, xTotalModel, "ResultHillClimbing");
 
             //for objective Details
@@ -181,39 +181,13 @@ namespace KnapsackProblem.Methods
                 while (!neighborhood.stop)
                 {
                     BitArray Y = neighborhood.GetNextNeighborhood(X);
-                    var yTotalModel = objectiveCalculation.NextObjectiveValue(neighborhood.NFlip, X, xTotalModel, model);
-                    if (!bestTotalModel.IsModelAppropriate)
+                    var yTotalModel = objectiveCalculation.CalculateNewObjective(Y, model, alpha);
+                    if (bestTotalModel.TotalCost < yTotalModel.TotalCost)
                     {
-                        if (!yTotalModel.IsModelAppropriate)
-                        {
-                            if (bestTotalModel.TotalWeight > yTotalModel.TotalWeight)
-                            {
-                                best = (BitArray)Y.Clone();
-                                bestTotalModel.TotalCost = yTotalModel.TotalCost;
-                                bestTotalModel.TotalWeight = yTotalModel.TotalWeight;
-                                bestTotalModel.IsModelAppropriate = yTotalModel.IsModelAppropriate;
-                            }
-                        }
-                        else
-                        {
-                            best = (BitArray)Y.Clone();
-                            bestTotalModel.TotalCost = yTotalModel.TotalCost;
-                            bestTotalModel.TotalWeight = yTotalModel.TotalWeight;
-                            bestTotalModel.IsModelAppropriate = yTotalModel.IsModelAppropriate;
-                        }
-                    }
-                    else
-                    {
-                        if (yTotalModel.IsModelAppropriate)
-                        {
-                            if (bestTotalModel.TotalCost < yTotalModel.TotalCost)
-                            {
-                                best = (BitArray)Y.Clone();
-                                bestTotalModel.TotalCost = yTotalModel.TotalCost;
-                                bestTotalModel.TotalWeight = yTotalModel.TotalWeight;
-                                bestTotalModel.IsModelAppropriate = yTotalModel.IsModelAppropriate;
-                            }
-                        }
+                        best = (BitArray)Y.Clone();
+                        bestTotalModel.TotalCost = yTotalModel.TotalCost;
+                        bestTotalModel.TotalWeight = yTotalModel.TotalWeight;
+                        bestTotalModel.IsModelAppropriate = yTotalModel.IsModelAppropriate;
                     }
                     neighborhood.MoveNext();
                 }

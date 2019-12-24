@@ -29,10 +29,10 @@ namespace KnapsackProblem.Services
         {
             Random r = new Random();
             NFlip = new int[N];
-            NFlip[0] = r.Next(0, length);
+            NFlip[0] = r.Next(N-1, length);
             for (int i = 1; i < NFlip.Length; i++)
             {
-                NFlip[i] = r.Next(0, NFlip[i-1]);
+                NFlip[i] = r.Next(N-i-1, NFlip[i-1]);
             }
             stop = false;
         }
